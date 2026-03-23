@@ -9,13 +9,19 @@ import java.util.Comparator;
  */
 public class Main {
 
+    private static final int DATA_SIZE = 100000;
+    private static final int MAX_PRODUCT_ID = 200000;
+    private static final int MAX_PRICE_RANGE = 500000;
+    private static final int MIN_PRICE = 5000;
+    private static final int MAX_STOCK = 100;
+
     /**
      * Runs the search performance tests and hybrid search demo.
      *
      * @param args command-line arguments
      */
     public static void main(String[] args) {
-        Product[] products = generateProducts(100000);
+        Product[] products = generateProducts(DATA_SIZE);
 
         // Keep a copy of the unsorted array for sequential search
         Product[] sequentialProducts = Arrays.copyOf(products, products.length);
@@ -89,11 +95,11 @@ public class Main {
         String[] categories = {"Electronics", "Accessories", "Computing", "Mobile"};
 
         for (int i = 0; i < size; i++) {
-            int productId = random.nextInt(200000) + 1;
+            int productId = random.nextInt(MAX_PRODUCT_ID) + 1;
             String productName = names[random.nextInt(names.length)] + "_" + (i + 1);
             String category = categories[random.nextInt(categories.length)];
-            double price = 5000 + random.nextInt(500000);
-            int stockQuantity = random.nextInt(100) + 1;
+            double price = MIN_PRICE + random.nextInt(MAX_PRICE_RANGE);
+            int stockQuantity = random.nextInt(MAX_STOCK) + 1;
 
             products[i] = new Product(productId, productName, category, price, stockQuantity);
         }

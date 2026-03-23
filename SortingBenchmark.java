@@ -1,3 +1,7 @@
+private static final int RUNS = 5;
+private static final int MAX_RANDOM_VALUE = 100000;
+private static final int DUPLICATE_RANGE = 10;
+
 import java.util.Random;
 
 /**

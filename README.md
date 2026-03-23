@@ -37,3 +37,9 @@ Run SortingBenchmark.java for Question 2 sorting benchmarks.
 
 ## Known Limitations
 Performance results may vary depending on device speed and input size.
+
+## Testing
+JUnit test files included:
+- SearchUtilsTest.java
+- HybridSearchTest.java
+- SortingBenchmarkTest.java

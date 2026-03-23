@@ -25,7 +25,10 @@ This project contains Java implementations of searching and sorting algorithms f
 javac *.java
 
 ## Execution Instructions
+Run Question 1:
 java Main
+
+Run Question 2:
 java SortingBenchmark
 
 ## Dependencies

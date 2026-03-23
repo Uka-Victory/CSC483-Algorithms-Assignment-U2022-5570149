@@ -4,16 +4,20 @@ import java.util.Comparator;
 
 /**
  * Main class for testing Question 1 search algorithms.
+ * It generates product data, compares sequential and binary search,
+ * and demonstrates the hybrid search approach.
  */
 public class Main {
 
     /**
-     * Runs the search performance tests.
+     * Runs the search performance tests and hybrid search demo.
+     *
      * @param args command-line arguments
      */
     public static void main(String[] args) {
         Product[] products = generateProducts(100000);
 
+        // Keep a copy of the unsorted array for sequential search
         Product[] sequentialProducts = Arrays.copyOf(products, products.length);
 
         int sequentialBestId = sequentialProducts[0].getProductId();
@@ -55,11 +59,26 @@ public class Main {
         double improvement = (double) sequentialAverageTime / binaryAverageTime;
         System.out.println("PERFORMANCE IMPROVEMENT: Binary search is ~" + String.format("%.2f", improvement) + "x faster on average");
         System.out.println("================================================================");
+        System.out.println();
+
+        // Demonstrate hybrid search
+        HybridSearch hybrid = new HybridSearch(10);
+        hybrid.addProduct(new Product(103, "Headset", "Accessories", 15000.0, 20));
+        hybrid.addProduct(new Product(101, "Laptop", "Electronics", 250000.0, 5));
+        hybrid.addProduct(new Product(102, "Phone", "Electronics", 120000.0, 10));
+
+        Product byId = hybrid.searchById(102);
+        Product byName = hybrid.searchByName("Laptop");
+
+        System.out.println("HYBRID SEARCH TEST:");
+        System.out.println("Search by ID: " + byId);
+        System.out.println("Search by Name: " + byName);
     }
 
     /**
-     * Generates random products for testing.
-     * @param size number of products
+     * Generates an array of random Product objects.
+     *
+     * @param size number of products to generate
      * @return array of generated products
      */
     public static Product[] generateProducts(int size) {
@@ -84,6 +103,7 @@ public class Main {
 
     /**
      * Measures the runtime of sequential search.
+     *
      * @param products array of products
      * @param targetId target product ID
      * @return runtime in nanoseconds
@@ -97,6 +117,7 @@ public class Main {
 
     /**
      * Measures the runtime of binary search.
+     *
      * @param products sorted array of products
      * @param targetId target product ID
      * @return runtime in nanoseconds
@@ -110,6 +131,7 @@ public class Main {
 
     /**
      * Converts nanoseconds to milliseconds.
+     *
      * @param nanoseconds time in nanoseconds
      * @return time in milliseconds
      */

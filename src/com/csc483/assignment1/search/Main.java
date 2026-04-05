@@ -33,4 +33,114 @@ public class Main {
 
         long sequentialBestTime = measureSequentialSearch(sequentialProducts, sequentialBestId);
         long sequentialAverageTime = measureSequentialSearch(sequentialProducts, sequentialAverageId);
-        long sequentialWorstTime = measureSequentialSearch(sequentialProducts, sequentialWorstId
+        long sequentialWorstTime = measureSequentialSearch(sequentialProducts, sequentialWorstId);
+
+        Arrays.sort(products, Comparator.comparingInt(Product::getProductId));
+
+        int binaryBestId = products[products.length / 2].getProductId();
+        int binaryAverageId = products[products.length / 3].getProductId();
+        int binaryWorstId = -1;
+
+        long binaryBestTime = measureBinarySearch(products, binaryBestId);
+        long binaryAverageTime = measureBinarySearch(products, binaryAverageId);
+        long binaryWorstTime = measureBinarySearch(products, binaryWorstId);
+
+        System.out.println("================================================================");
+        System.out.println("TECHMART SEARCH PERFORMANCE ANALYSIS (n = 100,000 products)");
+        System.out.println("================================================================");
+        System.out.println();
+
+        System.out.println("SEQUENTIAL SEARCH:");
+        System.out.println("Best Case (ID found at position 0): " + nanoToMilli(sequentialBestTime) + " ms");
+        System.out.println("Average Case (random ID): " + nanoToMilli(sequentialAverageTime) + " ms");
+        System.out.println("Worst Case (ID not found): " + nanoToMilli(sequentialWorstTime) + " ms");
+        System.out.println();
+
+        System.out.println("BINARY SEARCH:");
+        System.out.println("Best Case (ID at middle): " + nanoToMilli(binaryBestTime) + " ms");
+        System.out.println("Average Case (random ID): " + nanoToMilli(binaryAverageTime) + " ms");
+        System.out.println("Worst Case (ID not found): " + nanoToMilli(binaryWorstTime) + " ms");
+        System.out.println();
+
+        double improvement = (double) sequentialAverageTime / binaryAverageTime;
+        System.out.println("PERFORMANCE IMPROVEMENT: Binary search is ~" + String.format("%.2f", improvement) + "x faster on average");
+        System.out.println("================================================================");
+        System.out.println();
+
+        HybridSearch hybrid = new HybridSearch(10);
+        hybrid.addProduct(new Product(103, "Headset", "Accessories", 15000.0, 20));
+        hybrid.addProduct(new Product(101, "Laptop", "Electronics", 250000.0, 5));
+        hybrid.addProduct(new Product(102, "Phone", "Electronics", 120000.0, 10));
+
+        Product byId = hybrid.searchById(102);
+        Product byName = hybrid.searchByName("Laptop");
+
+        System.out.println("HYBRID SEARCH TEST:");
+        System.out.println("Search by ID: " + byId);
+        System.out.println("Search by Name: " + byName);
+    }
+
+    /**
+     * Generates an array of random Product objects.
+     *
+     * @param size number of products to generate
+     * @return array of generated products
+     */
+    public static Product[] generateProducts(int size) {
+        Product[] products = new Product[size];
+        Random random = new Random();
+
+        String[] names = {"Laptop", "Phone", "Headset", "Mouse", "Keyboard", "Tablet", "Monitor", "Speaker"};
+        String[] categories = {"Electronics", "Accessories", "Computing", "Mobile"};
+
+        for (int i = 0; i < size; i++) {
+            int productId = random.nextInt(MAX_PRODUCT_ID) + 1;
+            String productName = names[random.nextInt(names.length)] + "_" + (i + 1);
+            String category = categories[random.nextInt(categories.length)];
+            double price = MIN_PRICE + random.nextInt(MAX_PRICE_RANGE);
+            int stockQuantity = random.nextInt(MAX_STOCK) + 1;
+
+            products[i] = new Product(productId, productName, category, price, stockQuantity);
+        }
+
+        return products;
+    }
+
+    /**
+     * Measures the runtime of sequential search.
+     *
+     * @param products array of products
+     * @param targetId target product ID
+     * @return runtime in nanoseconds
+     */
+    public static long measureSequentialSearch(Product[] products, int targetId) {
+        long startTime = System.nanoTime();
+        SearchUtils.sequentialSearchById(products, targetId);
+        long endTime = System.nanoTime();
+        return endTime - startTime;
+    }
+
+    /**
+     * Measures the runtime of binary search.
+     *
+     * @param products sorted array of products
+     * @param targetId target product ID
+     * @return runtime in nanoseconds
+     */
+    public static long measureBinarySearch(Product[] products, int targetId) {
+        long startTime = System.nanoTime();
+        SearchUtils.binarySearchById(products, targetId);
+        long endTime = System.nanoTime();
+        return endTime - startTime;
+    }
+
+    /**
+     * Converts nanoseconds to milliseconds.
+     *
+     * @param nanoseconds time in nanoseconds
+     * @return time in milliseconds
+     */
+    public static double nanoToMilli(long nanoseconds) {
+        return nanoseconds / 1_000_000.0;
+    }
+            }

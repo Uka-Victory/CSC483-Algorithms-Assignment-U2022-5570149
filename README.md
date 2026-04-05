@@ -30,7 +30,8 @@ CSC 483 assignment on searching and sorting algorithms.
 
 ## Compilation Instructions
 
-javac -d . src/com/csc483/assignment1/search/*.java src/com/csc483/assignment2/sorting/*.java
+javac -d . 
+src/com/csc483/assignment1/search/*.java src/com/csc483/assignment2/sorting/*.java
 
 ## Execution Instructions
 
